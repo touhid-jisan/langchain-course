@@ -2,28 +2,27 @@ import os
 
 from dotenv import load_dotenv
 from langchain.agents import create_agent
-from langchain.tools import tool
 from langchain_core.messages import HumanMessage
-from langchain_ollama import ChatOllama
 from langchain_openrouter import ChatOpenRouter
-from tavily import TavilyClient
+from langchain_tavily import TavilySearch
+from langchain.agents import create_agent
+from langchain.tools import tool
 
 load_dotenv()
-tavily = TavilyClient()
 
+# @tool
+# def search_on_internet(query: str) -> str:
+#     """
+#     Tool that searches over internet
+#     Args:
+#         query: The query to search for
 
-@tool
-def search_on_internet(query: str) -> str:
-    """
-    Tool that searches over internet
-    Args:
-        query: The query to search for
+#     Returns:
+#         The search result
+#     """
+#     print(f"Searching for {query}\n")
+#     return tavily.search(query=query)
 
-    Returns:
-        The search result
-    """
-    print(f"Searching for {query}\n")
-    return tavily.search(query=query)
 
 
 llm = ChatOpenRouter(
@@ -35,7 +34,7 @@ llm = ChatOpenRouter(
 # llm = ChatOllama(
 #     model = "qwen2.5-coder:7b"
 # )
-tools = [search_on_internet]
+tools = [TavilySearch()]
 agent = create_agent(model=llm, tools=tools)
 
 
