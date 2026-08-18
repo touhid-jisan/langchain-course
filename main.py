@@ -2,6 +2,7 @@ from dotenv  import load_dotenv
 import os
 from langchain_openai import ChatOpenAI
 from langchain_openrouter import ChatOpenRouter
+from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 
 load_dotenv()
@@ -28,6 +29,10 @@ def main():
         temperature=0,
         api_key=os.getenv("OPENROUTER_API_KEY")
         )
+    # llm = ChatOllama(
+    #     model = "gemma3:1b",
+    #     temperature=0
+    # )
 
     # print(llm)
 
