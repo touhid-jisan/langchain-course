@@ -1,11 +1,13 @@
-from dotenv  import load_dotenv
 import os
+
+from dotenv import load_dotenv
+from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
+from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
 from langchain_openrouter import ChatOpenRouter
-from langchain_ollama import ChatOllama
-from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 
 load_dotenv()
+
 
 def main():
     information = """
@@ -19,16 +21,15 @@ def main():
     """
 
     summary_prompt_template = PromptTemplate(
-        input_variables=["information"],
-        template=summary_template
+        input_variables=["information"], template=summary_template
     )
 
     # print(summary_prompt_template)
     llm = ChatOpenRouter(
-        model="google/gemma-4-26b-a4b-it:free", 
+        model="google/gemma-4-26b-a4b-it:free",
         temperature=0,
-        api_key=os.getenv("OPENROUTER_API_KEY")
-        )
+        api_key=os.getenv("OPENROUTER_API_KEY"),
+    )
     # llm = ChatOllama(
     #     model = "gemma3:1b",
     #     temperature=0
@@ -40,6 +41,7 @@ def main():
     # print(chain)
     response = chain.invoke({"information": information})
     print(response.content)
+
 
 if __name__ == "__main__":
     main()
