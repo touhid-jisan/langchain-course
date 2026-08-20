@@ -218,3 +218,5 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+react_search_agent/bind_tools_app.py
+react_search_agent/check.py

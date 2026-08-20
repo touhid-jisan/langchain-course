@@ -38,20 +38,18 @@ class AgentResponse(BaseModel):
         default_factory=list, description="List of sources used to generate the answer"
     )
 
-
-llm = ChatOpenRouter(
-    model="nvidia/nemotron-3-ultra-550b-a55b:free",
-    temperature=0,
-    api_key=os.getenv("OPENROUTER_API_KEY"),
-    max_retries=10
+llm = ChatOllama(
+    model = "llama3.1:8b",
+    base_url=os.getenv("SERVER_OLLAMA_BASE_URL"),
+    temperature=0
 )
 
-# llm = ChatOllama(
-#     model = "qwen2.5-coder:7b"
-# )
 
+tools = [TavilySearch(
+    start_date="2026-01-01",
+    end_date="2026-08-20"
+)]
 
-tools = [TavilySearch()]
 agent = create_agent(model=llm, tools=tools, response_format=AgentResponse)
 
 
@@ -71,8 +69,8 @@ def main():
 
     print(result)
     # print(result['structured_response'])
-    # print(result['structured_response'].sources)
+    # print(result['structured_response'].answer)
 
-
+    print("Available keys:", result.keys())
 if __name__ == "__main__":
     main()
